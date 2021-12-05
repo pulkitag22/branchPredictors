@@ -108,6 +108,6 @@ void train_predictor_gshare(uint32_t pc, uint8_t outcome) {
 		}	  
 	}
 	
-	gHistoryEntry = counterIndex;
+	gHistoryEntry = ((gHistoryEntry<<1)|sharedBinaryCounter[counterIndex]);
   
 }
