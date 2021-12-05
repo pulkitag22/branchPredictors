@@ -10,13 +10,6 @@
 #define NOTTAKEN  0
 #define TAKEN     1
 
-// The Different Predictor Types
-#define STATIC      0
-#define GSHARE      1
-#define TOURNAMENT  2
-#define CUSTOM      3
-extern const char *bpName[];
-
 // Definitions for 2-bit counters
 #define SN  0			// predict NT, strong not taken
 #define WN  1			// predict NT, weak not taken
