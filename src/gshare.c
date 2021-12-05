@@ -107,5 +107,7 @@ void train_predictor_gshare(uint32_t pc, uint8_t outcome) {
 				break;	
 		}	  
 	}
+	
+	gHistoryEntry = counterIndex;
   
 }
