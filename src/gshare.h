@@ -13,6 +13,7 @@
 #define GSHARE_H
 
 #include "defines.h"
+#include <math.h>
 
 //------------------------------------//
 //      Predictor Configuration       //

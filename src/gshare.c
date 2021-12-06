@@ -44,22 +44,27 @@ void init_predictor_gshare() {
 //
 uint8_t make_prediction_gshare(uint32_t pc) {
 	
-	uint32_t addressMask = !(0xffffffff<<gHistoryBits);
+	uint32_t addressMask = ~(0xffffffff<<gHistoryBits);
 	uint32_t counterIndex = (gHistoryEntry&addressMask)^(pc&addressMask);
 	uint8_t outcome;
 
 	switch(sharedBinaryCounter[counterIndex]) {
 		case SN:
 			outcome = NOTTAKEN;
+			break;
 		case WN:
 			outcome = NOTTAKEN;
+			break;
 		case WT:
 			outcome = TAKEN;
+			break;
 		case ST:
 			outcome = TAKEN;
+			break;
 		default:
 			// If there is not a compatable state in the counter then return NOTTAKEN
-			outcome = NOTTAKEN;		
+			outcome = NOTTAKEN;
+			break;
 	}
 
 	return outcome;
@@ -72,7 +77,7 @@ uint8_t make_prediction_gshare(uint32_t pc) {
 //
 void train_predictor_gshare(uint32_t pc, uint8_t outcome) {
 	
-	uint32_t addressMask = !(0xffffffff<<gHistoryBits);
+	uint32_t addressMask = ~(0xffffffff<<gHistoryBits);
 	uint32_t counterIndex = (gHistoryEntry&addressMask)^(pc&addressMask);
 	uint8_t predictedOutcome = make_prediction_gshare(pc);
 
