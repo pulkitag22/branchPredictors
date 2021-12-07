@@ -53,8 +53,10 @@ void init_predictor_pshare() {
 //
 uint8_t make_prediction_pshare(uint32_t pc) {
 	
-	uint32_t addressMask = ~(0xffffffff<<pHistoryBits);
-	uint32_t counterIndex = *(pHistoryEntry + (pc&addressMask));
+	uint32_t addressMaskTableEntry = ~(0xffffffff<<pHistoryTableAddressBits);
+	uint32_t addressMaskSharedCounter = ~(0xffffffff<<pHistoryBits);
+	uint32_t counterIndex = *(pHistoryEntry + (pc&addressMaskTableEntry));
+	counterIndex = counterIndex & addressMaskSharedCounter;
 	uint8_t outcome;
 
 	switch(sharedBinaryCounter[counterIndex]) {
@@ -86,8 +88,10 @@ uint8_t make_prediction_pshare(uint32_t pc) {
 //
 void train_predictor_pshare(uint32_t pc, uint8_t outcome) {
 	
-	uint32_t addressMask = ~(0xffffffff<<pHistoryBits);
-	uint32_t counterIndex = *(pHistoryEntry + (pc&addressMask));
+	uint32_t addressMaskTableEntry = ~(0xffffffff<<pHistoryTableAddressBits);
+	uint32_t addressMaskSharedCounter = ~(0xffffffff<<pHistoryBits);
+	uint32_t counterIndex = *(pHistoryEntry + (pc&addressMaskTableEntry));
+	counterIndex = counterIndex & addressMaskSharedCounter;
 	uint8_t predictedOutcome = make_prediction_pshare(pc);
 
 	if (predictedOutcome == outcome){
@@ -122,6 +126,6 @@ void train_predictor_pshare(uint32_t pc, uint8_t outcome) {
 		}	  
 	}
 	
-	*(pHistoryEntry + (pc&addressMask)) = (((*(pHistoryEntry + (pc&addressMask)))<<1)|sharedBinaryCounter[counterIndex]);
+	pHistoryEntry[pc&addressMaskTableEntry] = (pHistoryEntry[pc&addressMaskTableEntry]<<1) | (uint32_t)outcome;
   
 }
