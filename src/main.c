@@ -25,6 +25,7 @@ void usage() {
 	fprintf(stderr," --<type>     Branch prediction scheme:\n");
 	fprintf(stderr,"    static\n"
 				 "    gshare:<# gHistory>\n"
+				 "    pshare:<# pHistoryBits>:<# pHistoryTableAddressBits>\n"
 				 "    tournament:<# gHistory>:<# lhistory>:<# index>\n"
 				 "    custom\n");
 }
@@ -40,6 +41,9 @@ int handle_option(char *arg) {
 	} else if (!strncmp(arg,"--gshare:",9)) {
 		bpType = GSHARE;
 		sscanf(arg+9,"%d", &gHistoryBits);
+	} else if (!strncmp(arg,"--pshare:",9)) {
+		bpType = PSHARE;
+		sscanf(arg+9,"%d:%d", &pHistoryBits, &pHistoryTableAddressBits);
 	} /*else if (!strncmp(arg,"--tournament:",13)) {
 		bpType = TOURNAMENT;
 		sscanf(arg+13,"%d:%d:%d", &gHistoryBits, &lHistoryBits, &pcIndexBits);

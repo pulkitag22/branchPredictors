@@ -13,7 +13,7 @@
 //------------------------------------//
 
 // Handy Global for use in output routines
-const char *bpName[4] = { "Static", "Gshare",
+const char *bpName[5] = { "Static", "Gshare", "Pshare",
                           "Tournament", "Custom" };
 
 int bpType;       // Branch Prediction Type
@@ -33,6 +33,9 @@ void init_predictor() {
 			break;
 		case GSHARE:
 			init_predictor_gshare();
+			break;
+		case PSHARE:
+			init_predictor_pshare();
 			break;
 		case TOURNAMENT:
 			break;
@@ -59,6 +62,9 @@ uint8_t make_prediction(uint32_t pc) {
 		case GSHARE:
 			outcome = make_prediction_gshare(pc);
 			break;
+		case PSHARE:
+			outcome = make_prediction_pshare(pc);
+			break;
 		case TOURNAMENT:
 		case CUSTOM:
 		default:
@@ -82,6 +88,9 @@ void train_predictor(uint32_t pc, uint8_t outcome)
 			break;
 		case GSHARE:
 			train_predictor_gshare(pc, outcome);
+			break;
+		case PSHARE:
+			train_predictor_pshare(pc, outcome);
 			break;
 		case TOURNAMENT:
 		case CUSTOM:
