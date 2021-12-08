@@ -17,8 +17,8 @@
 
 uint32_t gHistoryBits; // Number of bits used for Global History
 uint32_t gHistoryEntry;
-uint32_t numberBinaryCounters;
-uint8_t * sharedBinaryCounter;
+uint32_t numberBinaryCounters_gshare;
+uint8_t * sharedBinaryCounter_gshare;
 
 //------------------------------------//
 //        Predictor Functions         //
@@ -28,12 +28,12 @@ uint8_t * sharedBinaryCounter;
 //
 void init_predictor_gshare() {
 	
-	numberBinaryCounters = pow(2,gHistoryBits);
-	sharedBinaryCounter = (uint8_t *)malloc(numberBinaryCounters*sizeof(uint8_t));
+	numberBinaryCounters_gshare = pow(2,gHistoryBits);
+	sharedBinaryCounter_gshare = (uint8_t *)malloc(numberBinaryCounters_gshare*sizeof(uint8_t));
 
 	gHistoryEntry = 0;
-	for (int i=0; i<numberBinaryCounters; i++) {
-		*(sharedBinaryCounter + i) = SN;
+	for (int i=0; i<numberBinaryCounters_gshare; i++) {
+		*(sharedBinaryCounter_gshare + i) = SN;
 	}
   
 }
@@ -48,7 +48,7 @@ uint8_t make_prediction_gshare(uint32_t pc) {
 	uint32_t counterIndex = (gHistoryEntry&addressMask)^(pc&addressMask);
 	uint8_t outcome;
 
-	switch(sharedBinaryCounter[counterIndex]) {
+	switch(sharedBinaryCounter_gshare[counterIndex]) {
 		case SN:
 			outcome = NOTTAKEN;
 			break;
@@ -82,30 +82,30 @@ void train_predictor_gshare(uint32_t pc, uint8_t outcome) {
 	uint8_t predictedOutcome = make_prediction_gshare(pc);
 
 	if (predictedOutcome == outcome){
-		switch(sharedBinaryCounter[counterIndex]){
+		switch(sharedBinaryCounter_gshare[counterIndex]){
 			case WN:
-				sharedBinaryCounter[counterIndex] = SN;
+				sharedBinaryCounter_gshare[counterIndex] = SN;
 				break;
 			case WT:
-				sharedBinaryCounter[counterIndex] = ST;
+				sharedBinaryCounter_gshare[counterIndex] = ST;
 				break;
 			default:
 				// If there is not a compatable state in the counter then return NOTTAKEN
 				break;	
 		}  
 	} else {
-		switch(sharedBinaryCounter[counterIndex]){
+		switch(sharedBinaryCounter_gshare[counterIndex]){
 			case SN:
-				sharedBinaryCounter[counterIndex] = WN;
+				sharedBinaryCounter_gshare[counterIndex] = WN;
 				break;
 			case WN:
-				sharedBinaryCounter[counterIndex] = WT;
+				sharedBinaryCounter_gshare[counterIndex] = WT;
 				break;
 			case WT:
-				sharedBinaryCounter[counterIndex] = WN;
+				sharedBinaryCounter_gshare[counterIndex] = WN;
 				break;
 			case ST:
-				sharedBinaryCounter[counterIndex] = WT;
+				sharedBinaryCounter_gshare[counterIndex] = WT;
 				break;
 			default:
 				// If there is not a compatable state in the counter then return NOTTAKEN
@@ -113,6 +113,6 @@ void train_predictor_gshare(uint32_t pc, uint8_t outcome) {
 		}	  
 	}
 	
-	gHistoryEntry = ((gHistoryEntry<<1)|sharedBinaryCounter[counterIndex]);
+	gHistoryEntry = ((gHistoryEntry<<1)|sharedBinaryCounter_gshare[counterIndex]);
   
 }

@@ -20,8 +20,8 @@ uint32_t pHistoryBits; // Number of bits used for Private History
 uint32_t pHistoryTableAddressBits;
 uint32_t numberPHistoryEntries;
 uint32_t * pHistoryEntry;
-uint32_t numberBinaryCounters;
-uint8_t * sharedBinaryCounter;
+uint32_t numberBinaryCounters_pshare;
+uint8_t * sharedBinaryCounter_pshare;
 
 //------------------------------------//
 //        Predictor Functions         //
@@ -31,14 +31,14 @@ uint8_t * sharedBinaryCounter;
 //
 void init_predictor_pshare() {
 	
-	numberBinaryCounters = pow(2,pHistoryBits);
-	sharedBinaryCounter = (uint8_t *)malloc(numberBinaryCounters*sizeof(uint8_t));
+	numberBinaryCounters_pshare = pow(2,pHistoryBits);
+	sharedBinaryCounter_pshare = (uint8_t *)malloc(numberBinaryCounters_pshare*sizeof(uint8_t));
 
 	numberPHistoryEntries = pow(2,pHistoryTableAddressBits);
 	pHistoryEntry = (uint32_t *)malloc(numberPHistoryEntries*sizeof(uint32_t));
 	
-	for (int i=0; i<numberBinaryCounters; i++) {
-		*(sharedBinaryCounter + i) = SN;
+	for (int i=0; i<numberBinaryCounters_pshare; i++) {
+		*(sharedBinaryCounter_pshare + i) = SN;
 	}
 	
 	for (int i=0; i<numberPHistoryEntries; i++) {
@@ -59,7 +59,7 @@ uint8_t make_prediction_pshare(uint32_t pc) {
 	counterIndex = counterIndex & addressMaskSharedCounter;
 	uint8_t outcome;
 
-	switch(sharedBinaryCounter[counterIndex]) {
+	switch(sharedBinaryCounter_pshare[counterIndex]) {
 		case SN:
 			outcome = NOTTAKEN;
 			break;
@@ -95,30 +95,30 @@ void train_predictor_pshare(uint32_t pc, uint8_t outcome) {
 	uint8_t predictedOutcome = make_prediction_pshare(pc);
 
 	if (predictedOutcome == outcome){
-		switch(sharedBinaryCounter[counterIndex]){
+		switch(sharedBinaryCounter_pshare[counterIndex]){
 			case WN:
-				sharedBinaryCounter[counterIndex] = SN;
+				sharedBinaryCounter_pshare[counterIndex] = SN;
 				break;
 			case WT:
-				sharedBinaryCounter[counterIndex] = ST;
+				sharedBinaryCounter_pshare[counterIndex] = ST;
 				break;
 			default:
 				// If there is not a compatable state in the counter then return NOTTAKEN
 				break;	
 		}  
 	} else {
-		switch(sharedBinaryCounter[counterIndex]){
+		switch(sharedBinaryCounter_pshare[counterIndex]){
 			case SN:
-				sharedBinaryCounter[counterIndex] = WN;
+				sharedBinaryCounter_pshare[counterIndex] = WN;
 				break;
 			case WN:
-				sharedBinaryCounter[counterIndex] = WT;
+				sharedBinaryCounter_pshare[counterIndex] = WT;
 				break;
 			case WT:
-				sharedBinaryCounter[counterIndex] = WN;
+				sharedBinaryCounter_pshare[counterIndex] = WN;
 				break;
 			case ST:
-				sharedBinaryCounter[counterIndex] = WT;
+				sharedBinaryCounter_pshare[counterIndex] = WT;
 				break;
 			default:
 				// If there is not a compatable state in the counter then return NOTTAKEN

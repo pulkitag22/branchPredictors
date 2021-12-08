@@ -20,8 +20,8 @@
 //------------------------------------//
 extern uint32_t gHistoryEntry;
 extern uint32_t gHistoryBits; // Number of bits used for Global History
-extern uint32_t numberBinaryCounters;
-extern uint8_t * sharedBinaryCounter;
+extern uint32_t numberBinaryCounters_gshare;
+extern uint8_t * sharedBinaryCounter_gshare;
 
 //------------------------------------//
 //    Predictor Function Prototypes   //

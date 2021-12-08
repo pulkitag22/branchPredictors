@@ -22,8 +22,8 @@ extern uint32_t pHistoryTableAddressBits; // Number of bits used for Private Tab
 extern uint32_t numberPHistoryEntries;
 extern uint32_t * pHistoryEntry;
 extern uint32_t pHistoryBits; // Number of bits used for Private History
-extern uint32_t numberBinaryCounters;
-extern uint8_t * sharedBinaryCounter;
+extern uint32_t numberBinaryCounters_pshare;
+extern uint8_t * sharedBinaryCounter_pshare;
 //------------------------------------//
 //    Predictor Function Prototypes   //
 //------------------------------------//
