@@ -18,10 +18,10 @@
 //------------------------------------//
 //      Predictor Configuration       //
 //------------------------------------//
-extern uint32_t pHistoryBits; // Number of bits used for Private History
-extern uint32_t pHistoryTableAddressBits;
+extern uint32_t pHistoryTableAddressBits; // Number of bits used for Private Table Address
 extern uint32_t numberPHistoryEntries;
 extern uint32_t * pHistoryEntry;
+extern uint32_t pHistoryBits; // Number of bits used for Private History
 extern uint32_t numberBinaryCounters;
 extern uint8_t * sharedBinaryCounter;
 //------------------------------------//
