@@ -38,6 +38,7 @@ void init_predictor() {
 			init_predictor_pshare();
 			break;
 		case TOURNAMENT:
+		init_predictor_tournament();
 			break;
 		case CUSTOM:
 			break;
@@ -66,6 +67,8 @@ uint8_t make_prediction(uint32_t pc) {
 			outcome = make_prediction_pshare(pc);
 			break;
 		case TOURNAMENT:
+			outcome = make_prediction_tournament(pc);
+			break;
 		case CUSTOM:
 		default:
 			// If there is not a compatable bpType then return NOTTAKEN
@@ -93,6 +96,8 @@ void train_predictor(uint32_t pc, uint8_t outcome)
 			train_predictor_pshare(pc, outcome);
 			break;
 		case TOURNAMENT:
+			train_predictor_tournament(pc, outcome);
+			break;
 		case CUSTOM:
 		default:
 			// If there is not a compatable bpType then return NOTTAKEN

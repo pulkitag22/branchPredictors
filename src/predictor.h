@@ -11,6 +11,7 @@
 
 #include "gshare.h"
 #include "pshare.h"
+#include "tournament.h"
 
 // The Different Predictor Types
 #define STATIC      0
