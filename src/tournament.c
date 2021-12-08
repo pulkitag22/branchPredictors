@@ -1,5 +1,5 @@
 //========================================================//
-//  tournamment.c                                         //
+//  tournament.c                                         //
 //  Source file for the Branch Predictor                  //
 //														  //
 // The following code is developed by                     //
@@ -9,7 +9,7 @@
 //  described in the README                               //
 //========================================================//
 #include <stdio.h>
-#include "tournamment.h"
+#include "tournament.h"
 
 //
 //TODO: Add your extern variables defined in your 
@@ -91,6 +91,9 @@ void train_predictor_tournament(uint32_t pc, uint8_t outcome) {
 	uint8_t counterValue = *(scoreCounters + (pc&addressMaskScoreEntry));
 	uint8_t outcome_p1 = make_prediction_gshare(pc);
 	uint8_t outcome_p2 = make_prediction_pshare(pc);
+	
+	train_predictor_pshare(pc, outcome);
+	train_predictor_gshare(pc, outcome);
 	
 	if (outcome_p1 == outcome_p2) {
 		return;

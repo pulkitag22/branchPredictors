@@ -38,7 +38,7 @@ void init_predictor() {
 			init_predictor_pshare();
 			break;
 		case TOURNAMENT:
-		init_predictor_tournament();
+			init_predictor_tournament();
 			break;
 		case CUSTOM:
 			break;
