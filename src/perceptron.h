@@ -13,6 +13,7 @@
 #define PERCEPTRON_H
 
 #include "defines.h"
+#include <math.h>
 
 //------------------------------------//
 //      Predictor Configuration       //
@@ -22,6 +23,7 @@ extern uint32_t gHistoryEntry_perceptron;
 extern uint32_t gHistoryBits_perceptron; // Number of bits used for Global History
 
 extern int threshold_perceptron;
+extern uint32_t perceptronTableAddressBits;
 extern uint32_t numberOfPerceptronTableEntries;
 extern uint32_t numberOfWeightsInPerceptronEntry;
 extern int ** perceptronTable;
