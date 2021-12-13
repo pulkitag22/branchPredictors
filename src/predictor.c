@@ -14,7 +14,7 @@
 
 // Handy Global for use in output routines
 const char *bpName[5] = { "Static", "Gshare", "Pshare",
-                          "Tournament", "Custom" };
+                          "Tournament", "Perceptron" };
 
 int bpType;       // Branch Prediction Type
 int verbose;
@@ -40,7 +40,8 @@ void init_predictor() {
 		case TOURNAMENT:
 			init_predictor_tournament();
 			break;
-		case CUSTOM:
+		case PERCEPTRON:
+			init_predictor_perceptron();
 			break;
 		default:
 			break;
@@ -69,7 +70,9 @@ uint8_t make_prediction(uint32_t pc) {
 		case TOURNAMENT:
 			outcome = make_prediction_tournament(pc);
 			break;
-		case CUSTOM:
+		case PERCEPTRON:
+			outcome = make_prediction_perceptron(pc);
+			break;
 		default:
 			// If there is not a compatable bpType then return NOTTAKEN
 			outcome = NOTTAKEN;
@@ -98,7 +101,9 @@ void train_predictor(uint32_t pc, uint8_t outcome)
 		case TOURNAMENT:
 			train_predictor_tournament(pc, outcome);
 			break;
-		case CUSTOM:
+		case PERCEPTRON:
+			train_predictor_perceptron(pc, outcome);
+			break;
 		default:
 			// If there is not a compatable bpType then return NOTTAKEN
 			outcome = NOTTAKEN;

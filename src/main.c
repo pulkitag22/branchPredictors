@@ -27,7 +27,7 @@ void usage() {
 				 "    gshare:<# gHistory>\n"
 				 "    pshare:<# pHistoryBits>:<# pHistoryTableAddressBits>\n"
 				 "    tournament:<# gHistory>:<# pHistoryBits>:<# pHistoryTableAddressBits>:<# tournamentScoreTableAddressBits>\n"
-				 "    custom\n");
+				 "    perceptron:<# gHistory>:<# numberOfPerceptronTableEntries>\n");
 }
 
 // Process an option and update the predictor
@@ -48,8 +48,9 @@ int handle_option(char *arg) {
 		bpType = TOURNAMENT;
 		sscanf(arg+13,"%d:%d:%d:%d", &gHistoryBits, &pHistoryBits, &pHistoryTableAddressBits, &tournamentScoreTableAddressBits);
 		
-	} else if (!strcmp(arg,"--custom")) {
-		bpType = CUSTOM;
+	} else if (!strcmp(arg,"--perceptron", 12)) {
+		bpType = PERCEPTRON;
+		sscanf(arg+12,"%d:%d", &gHistoryBits_perceptron, &numberOfPerceptronTableEntries);
 	} else if (!strcmp(arg,"--verbose")) {
 		verbose = 1;
 	} else {
